@@ -96,4 +96,5 @@ public class FlockerScript : MonoBehaviour {
         desiredDirection.Normalize();
         transform.position += desiredDirection * SpeedPerSecond * Time.deltaTime;
     }
+
 }
