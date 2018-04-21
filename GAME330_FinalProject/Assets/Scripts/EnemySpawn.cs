@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    public GameObject EnemyBasic;                // The enemy prefab to be spawned.
-    public float spawnTime = 3f;            // How long between each spawn.
-	public float spawnDelay = 3f;
+    public GameObject[] Enemies;
+    public float spawnTime = 1f;            // How long between each spawn.
+	public float spawnDelay = 1f;
     public Vector3 enposition;
-	public Transform Wall;
-
 
     void Start ()
     {
@@ -21,6 +19,7 @@ public class EnemySpawn : MonoBehaviour
     void Spawn ()
     {
         // Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
-        Instantiate (EnemyBasic, Wall.position, Wall.rotation);
+
+        Instantiate (Enemies[Random.Range(0,4)], transform.position, transform.rotation);
     }
 }
