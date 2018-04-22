@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour {
     public Vector3 originalScale;
     public GameObject tower;
     public GameObject shockwave;
+    public Text timer;
+    public float startTime;
 
     // Use this for initialization
     void Start () {
@@ -35,12 +38,20 @@ public class Player : MonoBehaviour {
         {
             playerRenderer.material.color = Color.yellow;
         }
-/*
-        if(destroyAll)
-        {
-            playerRenderer.material.color = Color.Lerp(Color.red, Color.green, Mathf.PingPong(Time.time, 1));
-        }
-        */
+
+        float t = startTime - Time.time;
+
+        //string minutes = ((int) t / 60).ToString();
+        string seconds = (t % 60).ToString("f0");
+
+        //timer.text = minutes + ":" + seconds;
+        timer.text = seconds;
+        /*
+                if(destroyAll)
+                {
+                    playerRenderer.material.color = Color.Lerp(Color.red, Color.green, Mathf.PingPong(Time.time, 1));
+                }
+                */
     }
 
     //I do not know why you need this?

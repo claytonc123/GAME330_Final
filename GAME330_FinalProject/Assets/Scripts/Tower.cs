@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 public class Tower : MonoBehaviour {
 
     public float health;
+    public float maxHealth;
     public GameObject healthBar;
     public GameObject gameOver;
     public bool gameOverActive;
 
     // Use this for initialization
     void Start () {
-        health = 1;
+        health = maxHealth;
 	}
 	
 	// Update is called once per frame
@@ -22,6 +23,10 @@ public class Tower : MonoBehaviour {
             Time.timeScale = 0;
             gameOver.SetActive(true);
             Destroy(gameObject);
+        }
+        else if (health > 1)
+        {
+            health = maxHealth;
         }
     }
     
