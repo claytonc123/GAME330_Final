@@ -7,12 +7,15 @@ public class Player : MonoBehaviour {
     public Renderer playerRenderer;
     public bool destroyAll;
     public Vector3 originalScale;
+    public GameObject tower;
+    public GameObject shockwave;
 
     // Use this for initialization
     void Start () {
         playerRenderer = GetComponent<Renderer>();
         destroyAll = false;
         originalScale = transform.localScale;
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -69,11 +72,21 @@ public class Player : MonoBehaviour {
         }
         else if (other.gameObject.tag == "SuperSize")
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             StartCoroutine(SuperSizeLifespan(10));
             Destroy(other.gameObject);
         }
-        else if (destroyAll)
+        else if (other.gameObject.tag == "Health")
+        {
+            tower.GetComponent<Tower>().health += .2f;
+            Destroy(other.gameObject);
+        }
+        else if (other.gameObject.tag == "Shockwave")
+        {
+            Destroy(other.gameObject);
+            Instantiate(shockwave, transform.position, transform.rotation);
+        }
+        else if (destroyAll && other.gameObject.tag != "ShockwavePickup")
         {
             Destroy(other.gameObject);
         }

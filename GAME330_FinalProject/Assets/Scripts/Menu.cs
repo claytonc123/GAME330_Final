@@ -35,11 +35,11 @@ public class Menu : MonoBehaviour {
             title.SetActive(false);
             rules.SetActive(true);
         }
-        else if (Input.GetButton("Fire1") && menuIsActive)
+        else if (Input.GetButton("Fire2") && menuIsActive)
         {
             Application.Quit();
         }
-        else if (Input.GetButton("Fire2") && menuIsActive)
+        else if (Input.GetButton("Fire1") && menuIsActive)
         {
             SceneManager.LoadScene("SimonXTestbed");
         }
