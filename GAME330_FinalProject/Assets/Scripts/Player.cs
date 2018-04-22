@@ -6,19 +6,20 @@ public class Player : MonoBehaviour {
 
     public Renderer playerRenderer;
     public bool destroyAll;
+    public Vector3 originalScale;
 
     // Use this for initialization
     void Start () {
         playerRenderer = GetComponent<Renderer>();
         destroyAll = false;
+        originalScale = transform.localScale;
     }
 
     // Update is called once per frame
     void Update () {
         if (Input.GetButton("Fire1"))
         {
-            playerRenderer.material.color = Color.green;
-        }
+            playerRenderer.material.color = Color.green;        }
         else if (Input.GetButton("Fire2"))
         {
             playerRenderer.material.color = Color.red;
@@ -66,6 +67,12 @@ public class Player : MonoBehaviour {
             StartCoroutine(DestoryAllLifespan(10));
             Destroy(other.gameObject);
         }
+        else if (other.gameObject.tag == "SuperSize")
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            StartCoroutine(SuperSizeLifespan(10));
+            Destroy(other.gameObject);
+        }
         else if (destroyAll)
         {
             Destroy(other.gameObject);
@@ -77,4 +84,11 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(lifespan);
         destroyAll = false;
     }
+
+    private IEnumerator SuperSizeLifespan(float lifespan)
+    {
+        yield return new WaitForSeconds(lifespan);
+        transform.localScale = originalScale;
+    }
+
 }
