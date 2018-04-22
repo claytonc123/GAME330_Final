@@ -36,6 +36,7 @@ public class Tower : MonoBehaviour {
         {
             Destroy(other.gameObject);
             health -= .05f;
+            GetComponent<Animator>().SetTrigger("TookDamage");
             Debug.Log("hit");
             healthBar.transform.localScale = new Vector3(health , healthBar.transform.localScale.y, healthBar.transform.localScale.z);
         }

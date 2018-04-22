@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     public GameObject shockwave;
     public Text timer;
     public float startTime;
+    public Animator towerAnim;
 
     // Use this for initialization
     void Start () {
@@ -41,11 +42,11 @@ public class Player : MonoBehaviour {
 
         float t = startTime - Time.time;
 
-        //string minutes = ((int) t / 60).ToString();
+        string minutes = ((int) t / 60).ToString();
         string seconds = (t % 60).ToString("f0");
 
-        //timer.text = minutes + ":" + seconds;
-        timer.text = seconds;
+        timer.text = minutes + ":" + seconds;
+        //timer.text = seconds;
         /*
                 if(destroyAll)
                 {
@@ -90,6 +91,7 @@ public class Player : MonoBehaviour {
         else if (other.gameObject.tag == "Health")
         {
             tower.GetComponent<Tower>().health += .2f;
+            towerAnim.SetTrigger("Healed");
             Destroy(other.gameObject);
         }
         else if (other.gameObject.tag == "Shockwave")
