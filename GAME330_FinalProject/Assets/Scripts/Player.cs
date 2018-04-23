@@ -13,6 +13,8 @@ public class Player : MonoBehaviour {
     public Text timer;
     public float startTime;
     public Animator towerAnim;
+    public AudioSource audioSource;
+    public AudioClip destroy;
 
     // Use this for initialization
     void Start () {
@@ -63,24 +65,30 @@ public class Player : MonoBehaviour {
         if (other.gameObject.tag == "EnemyR" && playerRenderer.material.color == Color.red)
         {
             Destroy(other.gameObject);
+            audioSource.PlayOneShot(destroy, 0.7f);
         }
         else if (other.gameObject.tag == "EnemyG" && playerRenderer.material.color == Color.green)
         {
             Destroy(other.gameObject);
+            audioSource.PlayOneShot(destroy, 0.7f);
         }
         else if (other.gameObject.tag == "EnemyB" && playerRenderer.material.color == Color.blue)
         {
             Destroy(other.gameObject);
+            audioSource.PlayOneShot(destroy, 0.7f);
+
         }
         else if (other.gameObject.tag == "EnemyY" && playerRenderer.material.color == Color.yellow)
         {
             Destroy(other.gameObject);
+            audioSource.PlayOneShot(destroy, 0.7f);
         }
         else if (other.gameObject.tag == "DestroyAll")
         {
             destroyAll = true;
             StartCoroutine(DestoryAllLifespan(10));
             Destroy(other.gameObject);
+            audioSource.PlayOneShot(destroy, 0.7f);
         }
         else if (other.gameObject.tag == "SuperSize")
         {
