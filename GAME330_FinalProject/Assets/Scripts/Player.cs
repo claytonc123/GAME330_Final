@@ -48,13 +48,11 @@ public class Player : MonoBehaviour {
         string seconds = (t % 60).ToString("f0");
 
         timer.text = minutes + ":" + seconds;
-        //timer.text = seconds;
-        /*
-                if(destroyAll)
-                {
-                    playerRenderer.material.color = Color.Lerp(Color.red, Color.green, Mathf.PingPong(Time.time, 1));
-                }
-                */
+
+        if (t == 0)
+        {
+            Time.timeScale = 0;
+        }
     }
 
     //I do not know why you need this?
@@ -110,6 +108,7 @@ public class Player : MonoBehaviour {
         else if (destroyAll && other.gameObject.tag != "ShockwavePickup")
         {
             Destroy(other.gameObject);
+            audioSource.PlayOneShot(destroy, 0.7f);
         }
     }
 
