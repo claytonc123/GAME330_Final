@@ -13,6 +13,8 @@ public class Menu : MonoBehaviour {
     public Animator simonXAnimator;
     public AnimationClip simonX;
     public bool menuIsActive;
+    public AudioSource audioSource;
+    public AudioClip button;
 
     // Use this for initialization
     void Start () {
@@ -28,20 +30,24 @@ public class Menu : MonoBehaviour {
             controls.SetActive(true);
             title.SetActive(false);
             rules.SetActive(false);
+            audioSource.PlayOneShot(button);
         }
         else if (Input.GetButton("Jump") && menuIsActive)
         {
             controls.SetActive(false);
             title.SetActive(false);
             rules.SetActive(true);
+            audioSource.PlayOneShot(button);
         }
         else if (Input.GetButton("Fire2") && menuIsActive)
         {
             Application.Quit();
+            audioSource.PlayOneShot(button);
         }
         else if (Input.GetButton("Fire1") && menuIsActive)
         {
             SceneManager.LoadScene("SimonXTestbed");
+            audioSource.PlayOneShot(button);
         }
         else if (menuIsActive)
         {
