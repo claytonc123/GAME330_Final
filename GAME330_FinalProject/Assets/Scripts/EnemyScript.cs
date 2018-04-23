@@ -17,6 +17,8 @@ public class EnemyScript : MonoBehaviour {
     public FlockingMode CurrentFlockingMode = FlockingMode.ChaseTarget;
     public float DesiredDistanceFromTarget_Min = 3.5f;
     public float DesiredDistanceFromTarget_Max = 4.5f;
+    public AudioSource audioSource;
+    public AudioClip destroy;
 
     // Use this for initialization
     void Start () {
@@ -61,6 +63,7 @@ public class EnemyScript : MonoBehaviour {
     {
         if(other.gameObject.tag == "ShockwavePickup")
         {
+            audioSource.PlayOneShot(destroy);
             Destroy(gameObject);
         }
     }

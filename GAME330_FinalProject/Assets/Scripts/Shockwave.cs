@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Shockwave : MonoBehaviour {
 
-    public AudioSource audioSource;
-    public AudioClip destroy;
+    //public AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +21,6 @@ public class Shockwave : MonoBehaviour {
         if (other.gameObject.tag == "EnemyR" || other.gameObject.tag == "EnemyG" || other.gameObject.tag == "EnemyB" || other.gameObject.tag == "EnemyY")
         {
             Destroy(other.gameObject);
-            audioSource.PlayOneShot(destroy);
         }
     }
 
