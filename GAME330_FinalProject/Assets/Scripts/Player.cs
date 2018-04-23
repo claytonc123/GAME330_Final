@@ -15,6 +15,11 @@ public class Player : MonoBehaviour {
     public Animator towerAnim;
     public AudioSource audioSource;
     public AudioClip destroy;
+    public AudioClip heal;
+    public AudioClip shock;
+    public AudioClip grow;
+    public AudioClip power;
+    public GameObject levelComplete;
 
     // Use this for initialization
     void Start () {
@@ -49,9 +54,10 @@ public class Player : MonoBehaviour {
 
         timer.text = minutes + ":" + seconds;
 
-        if (t == 0)
+        if (t <= 0)
         {
-            Time.timeScale = 0;
+            timer.text = "0:0";
+            levelComplete.SetActive(true);
         }
     }
 
@@ -86,24 +92,27 @@ public class Player : MonoBehaviour {
             destroyAll = true;
             StartCoroutine(DestoryAllLifespan(10));
             Destroy(other.gameObject);
-            audioSource.PlayOneShot(destroy, 0.7f);
+            audioSource.PlayOneShot(power, 0.7f);
         }
         else if (other.gameObject.tag == "SuperSize")
         {
             transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             StartCoroutine(SuperSizeLifespan(10));
             Destroy(other.gameObject);
+            audioSource.PlayOneShot(grow, 1f);
         }
         else if (other.gameObject.tag == "Health")
         {
             tower.GetComponent<Tower>().health += .2f;
             towerAnim.SetTrigger("Healed");
             Destroy(other.gameObject);
+            audioSource.PlayOneShot(heal, 1f);
         }
         else if (other.gameObject.tag == "Shockwave")
         {
             Destroy(other.gameObject);
             Instantiate(shockwave, transform.position, transform.rotation);
+            audioSource.PlayOneShot(shock, 1f);
         }
         else if (destroyAll && other.gameObject.tag != "ShockwavePickup")
         {
@@ -114,7 +123,9 @@ public class Player : MonoBehaviour {
 
     private IEnumerator DestoryAllLifespan(float lifespan)
     {
+        GetComponent<Animator>().SetTrigger("Colors");
         yield return new WaitForSeconds(lifespan);
+        GetComponent<Animator>().SetTrigger("Idle");
         destroyAll = false;
     }
 

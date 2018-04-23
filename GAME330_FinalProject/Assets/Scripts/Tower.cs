@@ -13,19 +13,25 @@ public class Tower : MonoBehaviour {
     public AudioSource audioSource;
     public AudioClip explode;
     public GameObject explosion;
+    public AudioClip damage;
+    public AudioClip crumble;
+    MeshRenderer mesh;
 
     // Use this for initialization
     void Start () {
         health = maxHealth;
+        mesh = GetComponent<MeshRenderer>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (health <= 0)
         {
-            Instantiate(explosion, transform.position, transform.rotation);
             audioSource.PlayOneShot(explode);
-            StartCoroutine(GameOver(5));
+            audioSource.PlayOneShot(crumble);
+            //StartCoroutine(GameOver(5));
+            gameOver.SetActive(true);
+            Destroy(gameObject);
         }
         else if (health > 1)
         {
@@ -37,6 +43,7 @@ public class Tower : MonoBehaviour {
     {
         if (other.gameObject.tag == "EnemyR" || other.gameObject.tag == "EnemyG" || other.gameObject.tag == "EnemyB" || other.gameObject.tag == "EnemyY")
         {
+            audioSource.PlayOneShot(damage, 1.5f);
             Destroy(other.gameObject);
             health -= .1f;
             GetComponent<Animator>().SetTrigger("TookDamage");
@@ -44,14 +51,13 @@ public class Tower : MonoBehaviour {
             healthBar.transform.localScale = new Vector3(health , healthBar.transform.localScale.y, healthBar.transform.localScale.z);
         }
     }
-
+    /*
     private IEnumerator GameOver(float delay)
     {
         yield return new WaitForSeconds(delay);
 
         Time.timeScale = 0;
         gameOver.SetActive(true);
-        Destroy(gameObject);
     }
-
+    */
 }
