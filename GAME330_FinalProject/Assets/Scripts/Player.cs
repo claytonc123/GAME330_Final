@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     public GameObject tower;
     public GameObject shockwave;
     public Text timer;
+    public Text timerWatch;
     public float startTime;
     public Animator towerAnim;
     public AudioSource audioSource;
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour {
     public AudioClip grow;
     public AudioClip power;
     public GameObject levelComplete;
+    public int kills;
+    public Text killsText;
 
     // Use this for initialization
     void Start () {
@@ -53,12 +56,15 @@ public class Player : MonoBehaviour {
         string seconds = (t % 60).ToString("f0");
 
         timer.text = minutes + ":" + seconds;
+        timerWatch.text = minutes + ":" + seconds;
 
         if (t <= 0)
         {
             timer.text = "0:0";
             levelComplete.SetActive(true);
         }
+
+        killsText.text = kills.ToString();
     }
 
     //I do not know why you need this?
@@ -68,24 +74,20 @@ public class Player : MonoBehaviour {
     {
         if (other.gameObject.tag == "EnemyR" && playerRenderer.material.color == Color.red)
         {
-            Destroy(other.gameObject);
-            audioSource.PlayOneShot(destroy, 0.7f);
+            DestroyEnemy(other.gameObject);
         }
         else if (other.gameObject.tag == "EnemyG" && playerRenderer.material.color == Color.green)
-        {
-            Destroy(other.gameObject);
-            audioSource.PlayOneShot(destroy, 0.7f);
+        {            
+            DestroyEnemy(other.gameObject);
         }
         else if (other.gameObject.tag == "EnemyB" && playerRenderer.material.color == Color.blue)
         {
-            Destroy(other.gameObject);
-            audioSource.PlayOneShot(destroy, 0.7f);
+            DestroyEnemy(other.gameObject);
 
         }
         else if (other.gameObject.tag == "EnemyY" && playerRenderer.material.color == Color.yellow)
         {
-            Destroy(other.gameObject);
-            audioSource.PlayOneShot(destroy, 0.7f);
+            DestroyEnemy(other.gameObject);
         }
         else if (other.gameObject.tag == "DestroyAll")
         {
@@ -116,8 +118,7 @@ public class Player : MonoBehaviour {
         }
         else if (destroyAll && other.gameObject.tag != "ShockwavePickup")
         {
-            Destroy(other.gameObject);
-            audioSource.PlayOneShot(destroy, 0.7f);
+            DestroyEnemy(other.gameObject);
         }
     }
 
@@ -135,4 +136,11 @@ public class Player : MonoBehaviour {
         transform.localScale = originalScale;
     }
 
+
+    void DestroyEnemy(GameObject enemy)
+    {
+        Destroy(enemy);
+        audioSource.PlayOneShot(destroy, 0.7f);
+        kills++;
+    }
 }

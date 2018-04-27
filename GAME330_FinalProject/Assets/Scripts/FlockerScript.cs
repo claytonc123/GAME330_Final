@@ -18,6 +18,7 @@ public class FlockerScript : MonoBehaviour {
     public float DesiredDistanceFromTarget_Min = 3.5f;
     public float DesiredDistanceFromTarget_Max = 4.5f;
     public float DistanceFromHazard;
+    public GameObject player;
 
     public bool AvoidHazards = true;
 
@@ -97,4 +98,18 @@ public class FlockerScript : MonoBehaviour {
         transform.position += desiredDirection * SpeedPerSecond * Time.deltaTime;
     }
 
+    private void OnDestroy()
+    {
+        //player.GetComponent<Player>().kills ++;
+    }
+
+   /*private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "ShockwavePickup")
+        {
+            //audioSource.PlayOneShot(destroy);
+            Destroy(gameObject);
+            player.GetComponent<Player>().kills++;
+        }
+    }*/
 }

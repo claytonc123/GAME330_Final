@@ -8,6 +8,7 @@ public class Tower : MonoBehaviour {
     public float health;
     public float maxHealth;
     public GameObject healthBar;
+    public GameObject healthBarWatch;
     public GameObject gameOver;
     public bool gameOverActive;
     public AudioSource audioSource;
@@ -25,6 +26,7 @@ public class Tower : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         if (health <= 0)
         {
             audioSource.PlayOneShot(explode);
@@ -49,6 +51,7 @@ public class Tower : MonoBehaviour {
             GetComponent<Animator>().SetTrigger("TookDamage");
             Debug.Log("hit");
             healthBar.transform.localScale = new Vector3(health , healthBar.transform.localScale.y, healthBar.transform.localScale.z);
+            healthBarWatch.transform.localScale = new Vector3(health, healthBarWatch.transform.localScale.y, healthBarWatch.transform.localScale.z);
         }
     }
     /*

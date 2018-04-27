@@ -6,6 +6,8 @@ public class Shockwave : MonoBehaviour {
 
     //public AudioSource audioSource;
 
+    public GameObject player;
+
 	// Use this for initialization
 	void Start () {
         StartCoroutine(DestroyShockwave(.4f));
@@ -21,6 +23,7 @@ public class Shockwave : MonoBehaviour {
         if (other.gameObject.tag == "EnemyR" || other.gameObject.tag == "EnemyG" || other.gameObject.tag == "EnemyB" || other.gameObject.tag == "EnemyY")
         {
             Destroy(other.gameObject);
+            //player.GetComponent<Player>().kills ++;
         }
     }
 

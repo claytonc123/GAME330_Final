@@ -19,6 +19,7 @@ public class EnemyScript : MonoBehaviour {
     public float DesiredDistanceFromTarget_Max = 4.5f;
     public AudioSource audioSource;
     public AudioClip destroy;
+    public GameObject player;
 
     // Use this for initialization
     void Start () {
@@ -59,13 +60,14 @@ public class EnemyScript : MonoBehaviour {
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "ShockwavePickup")
         {
             audioSource.PlayOneShot(destroy);
             Destroy(gameObject);
+            player.GetComponent<Player>().kills++;
         }
-    }
+    }*/
 
 }
