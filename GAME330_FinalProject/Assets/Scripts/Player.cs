@@ -24,6 +24,7 @@ public class Player : MonoBehaviour {
     public GameObject levelComplete;
     public int kills;
     public Text killsText;
+    //Color gameObject.GetComponent<Renderer>().material.color;
 
     // Use this for initialization
     void Start () {
@@ -32,24 +33,25 @@ public class Player : MonoBehaviour {
         originalScale = transform.localScale;
         Time.timeScale = 1;
         //startTime = 30;
+        //gameObject.GetComponent<Renderer>().material.color = gameObject.GetComponent<Renderer>().material.color;
     }
 
     // Update is called once per frame
     void Update () {
         if (Input.GetButton("Fire1"))
         {
-            playerRenderer.material.color = Color.green;        }
+            gameObject.GetComponent<Renderer>().material.color = Color.green;        }
         else if (Input.GetButton("Fire2"))
         {
-            playerRenderer.material.color = Color.red;
+            gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
         else if (Input.GetButton("Fire3"))
         {
-            playerRenderer.material.color = Color.blue;
+            gameObject.GetComponent<Renderer>().material.color = Color.blue;
         }
         else if (Input.GetButton("Jump"))
         {
-            playerRenderer.material.color = Color.yellow;
+            gameObject.GetComponent<Renderer>().material.color = Color.yellow;
         }
 
         /*float t = startTime - Time.time;
@@ -76,20 +78,20 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "EnemyR" && playerRenderer.material.color == Color.red)
+        if (other.gameObject.tag == "EnemyR" && gameObject.GetComponent<Renderer>().material.color == Color.red)
         {
             DestroyEnemy(other.gameObject);
         }
-        else if (other.gameObject.tag == "EnemyG" && playerRenderer.material.color == Color.green)
+        else if (other.gameObject.tag == "EnemyG" && gameObject.GetComponent<Renderer>().material.color == Color.green)
         {            
             DestroyEnemy(other.gameObject);
         }
-        else if (other.gameObject.tag == "EnemyB" && playerRenderer.material.color == Color.blue)
+        else if (other.gameObject.tag == "EnemyB" && gameObject.GetComponent<Renderer>().material.color == Color.blue)
         {
             DestroyEnemy(other.gameObject);
 
         }
-        else if (other.gameObject.tag == "EnemyY" && playerRenderer.material.color == Color.yellow)
+        else if (other.gameObject.tag == "EnemyY" && gameObject.GetComponent<Renderer>().material.color == Color.yellow)
         {
             DestroyEnemy(other.gameObject);
         }
@@ -123,6 +125,17 @@ public class Player : MonoBehaviour {
         else if (destroyAll && other.gameObject.tag != "ShockwavePickup")
         {
             DestroyEnemy(other.gameObject);
+        }
+        else if(other.gameObject.tag == "Boss")
+        {
+            Color enemyColor = other.gameObject.GetComponent<Renderer>().material.color;
+            other.gameObject.GetComponent<Boss>().health -= .35f;
+
+            //if (gameObject.GetComponent<Renderer>().material.color == enemyColor)
+            //{
+            //    other.gameObject.GetComponent<Boss>().health -= .35f;
+            //}
+           // else if ( )
         }
     }
 
