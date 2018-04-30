@@ -22,9 +22,10 @@ public class GameOver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetButton("Fire1"))
         {
-            SceneManager.LoadScene("SimonXTestbed");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         else if (Input.GetButton("Fire2"))
         {

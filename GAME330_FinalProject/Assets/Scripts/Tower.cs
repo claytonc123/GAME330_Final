@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Tower : MonoBehaviour {
 
@@ -18,11 +19,15 @@ public class Tower : MonoBehaviour {
     public AudioClip crumble;
     MeshRenderer mesh;
 
+    //public Text timer;
+    //public float startTime;
+    //public GameObject levelComplete;
+
     // Use this for initialization
     void Start () {
         health = maxHealth;
         mesh = GetComponent<MeshRenderer>();
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -39,6 +44,22 @@ public class Tower : MonoBehaviour {
         {
             health = maxHealth;
         }
+
+        //float t = startTime - Time.time;
+
+        //string minutes = ((int)t / 60).ToString();
+        //string seconds = (t % 60).ToString("f0");
+
+        //timer.text = minutes + ":" + seconds;
+        //timerWatch.text = minutes + ":" + seconds;
+
+        //if (t <= 0)
+        //{
+        //    timer.text = "0:0";
+        //    //timerWatch.text = "0.0";
+        //    levelComplete.SetActive(true);
+        //    StartCoroutine(LoadNextLevel(3));
+        //}
     }
     
     private void OnTriggerEnter(Collider other)
@@ -63,4 +84,13 @@ public class Tower : MonoBehaviour {
         gameOver.SetActive(true);
     }
     */
+
+    private IEnumerator LoadNextLevel(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        int sceneNum = SceneManager.GetActiveScene().buildIndex;
+        sceneNum++;
+        SceneManager.LoadScene(sceneNum);
+
+    }
 }

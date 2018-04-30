@@ -17,9 +17,9 @@ public class HazardScript : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         FlockerScript flocker = collision.gameObject.GetComponent<FlockerScript>();
-        if(flocker != null)
+        /*if(flocker != null)
         {
             Destroy(collision.gameObject);
-        }
+        }*/
     }
 }

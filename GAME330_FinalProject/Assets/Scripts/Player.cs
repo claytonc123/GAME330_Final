@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour {
         destroyAll = false;
         originalScale = transform.localScale;
         Time.timeScale = 1;
+        //startTime = 30;
     }
 
     // Update is called once per frame
@@ -50,7 +52,7 @@ public class Player : MonoBehaviour {
             playerRenderer.material.color = Color.yellow;
         }
 
-        float t = startTime - Time.time;
+        /*float t = startTime - Time.time;
 
         string minutes = ((int) t / 60).ToString();
         string seconds = (t % 60).ToString("f0");
@@ -61,8 +63,10 @@ public class Player : MonoBehaviour {
         if (t <= 0)
         {
             timer.text = "0:0";
+            timerWatch.text = "0.0";
             levelComplete.SetActive(true);
-        }
+            StartCoroutine(LoadNextLevel(3));
+        }*/
 
         killsText.text = kills.ToString();
     }
@@ -136,6 +140,14 @@ public class Player : MonoBehaviour {
         transform.localScale = originalScale;
     }
 
+    private IEnumerator LoadNextLevel(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        int sceneNum = SceneManager.GetActiveScene().buildIndex;
+        sceneNum++;
+        SceneManager.LoadScene(sceneNum);
+
+    }
 
     void DestroyEnemy(GameObject enemy)
     {
