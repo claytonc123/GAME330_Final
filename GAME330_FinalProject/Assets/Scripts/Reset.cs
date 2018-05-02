@@ -12,17 +12,21 @@ public class Reset : MonoBehaviour
     public float startTime;
     public GameObject levelComplete;
 
+    float t;
+
     // Use this for initialization
     void Start()
     {
         Time.timeScale = 1;
+        t = startTime;
         //startTime = 30;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float t = startTime - Time.time;
+        //float t = startTime - Time.time;
+        t -= Time.deltaTime;
 
         string minutes = ((int)t / 60).ToString();
         string seconds = (t % 60).ToString("f0");

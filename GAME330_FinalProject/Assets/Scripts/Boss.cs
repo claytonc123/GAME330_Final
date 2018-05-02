@@ -13,6 +13,7 @@ public class Boss : MonoBehaviour {
 	void Start () {
         health = 1f;
         InvokeRepeating("ChangeColor", 1f, 4f);
+        colors = new Color[4];
         colors[0] = Color.red;
         colors[1] = Color.green;
         colors[2] = Color.blue;
@@ -22,18 +23,22 @@ public class Boss : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (health <= 0)
+        if (health <= 0)
         {
             Destroy(gameObject);
         }
-
-        InvokeRepeating("ChangeColor", 1f, 4f);
 	}
 
     void ChangeColor()
     {
-        float id = Random.Range(0f, 4f);
-        gameObject.GetComponent<Renderer>().material.color = colors[Mathf.RoundToInt(id)];
+        int id = Random.Range(0, 4);
+        gameObject.GetComponent<Renderer>().material.color = colors[id];
         //gameObject.GetComponent<Renderer>().material.color = Color.blue;
+    }
+
+    public void ChangeHealth(float amount)
+    {
+        health += amount;
+        health = Mathf.Clamp(health, 0.0f, 1.0f);
     }
 }

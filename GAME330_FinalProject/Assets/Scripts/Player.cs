@@ -111,7 +111,7 @@ public class Player : MonoBehaviour {
         }
         else if (other.gameObject.tag == "Health")
         {
-            tower.GetComponent<Tower>().health += .2f;
+            tower.GetComponent<Tower>().ChangeHealth(0.2f);
             towerAnim.SetTrigger("Healed");
             Destroy(other.gameObject);
             audioSource.PlayOneShot(heal, 1f);
@@ -128,14 +128,13 @@ public class Player : MonoBehaviour {
         }
         else if(other.gameObject.tag == "Boss")
         {
-            Color enemyColor = other.gameObject.GetComponent<Renderer>().material.color;
-            other.gameObject.GetComponent<Boss>().health -= .35f;
-
-            //if (gameObject.GetComponent<Renderer>().material.color == enemyColor)
-            //{
-            //    other.gameObject.GetComponent<Boss>().health -= .35f;
-            //}
-           // else if ( )
+            if (other.gameObject.GetComponent<Renderer>().material.color == gameObject.GetComponent<Renderer>().material.color)
+            {
+                other.gameObject.GetComponent<Boss>().ChangeHealth(-.35f);
+                audioSource.PlayOneShot(destroy, 0.7f);
+                Vector3 vectorToTarget = other.gameObject.transform.position - transform.position;
+                gameObject.GetComponent<Rigidbody>().AddForce(-vectorToTarget * 10, ForceMode.Impulse);
+            }
         }
     }
 

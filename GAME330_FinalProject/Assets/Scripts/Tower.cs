@@ -18,15 +18,18 @@ public class Tower : MonoBehaviour {
     public AudioClip damage;
     public AudioClip crumble;
     MeshRenderer mesh;
+    float t;
 
-    //public Text timer;
-    //public float startTime;
-    //public GameObject levelComplete;
+    public Text timer;
+    public Text timerWatch;
+    public float startTime;
+    public GameObject levelComplete;
 
     // Use this for initialization
     void Start () {
         health = maxHealth;
         mesh = GetComponent<MeshRenderer>();
+        t = startTime;
     }
 	
 	// Update is called once per frame
@@ -40,26 +43,22 @@ public class Tower : MonoBehaviour {
             gameOver.SetActive(true);
             Destroy(gameObject);
         }
-        else if (health > 1)
+
+        t -= Time.deltaTime;
+
+        string minutes = ((int)t / 60).ToString();
+        string seconds = (t % 60).ToString("f0");
+
+        timer.text = minutes + ":" + seconds;
+        timerWatch.text = minutes + ":" + seconds;
+
+        if (t <= 0)
         {
-            health = maxHealth;
+            timer.text = "0:0";
+            timerWatch.text = "0.0";
+            levelComplete.SetActive(true);
+            StartCoroutine(LoadNextLevel(3));
         }
-
-        //float t = startTime - Time.time;
-
-        //string minutes = ((int)t / 60).ToString();
-        //string seconds = (t % 60).ToString("f0");
-
-        //timer.text = minutes + ":" + seconds;
-        //timerWatch.text = minutes + ":" + seconds;
-
-        //if (t <= 0)
-        //{
-        //    timer.text = "0:0";
-        //    //timerWatch.text = "0.0";
-        //    levelComplete.SetActive(true);
-        //    StartCoroutine(LoadNextLevel(3));
-        //}
     }
     
     private void OnTriggerEnter(Collider other)
@@ -68,12 +67,19 @@ public class Tower : MonoBehaviour {
         {
             audioSource.PlayOneShot(damage, 1.5f);
             Destroy(other.gameObject);
-            health -= .1f;
             GetComponent<Animator>().SetTrigger("TookDamage");
             Debug.Log("hit");
-            healthBar.transform.localScale = new Vector3(health , healthBar.transform.localScale.y, healthBar.transform.localScale.z);
-            healthBarWatch.transform.localScale = new Vector3(health, healthBarWatch.transform.localScale.y, healthBarWatch.transform.localScale.z);
+            ChangeHealth(-0.1f);
         }
+    }
+
+    public void ChangeHealth(float amount)
+    {
+        health += amount;
+        health = Mathf.Clamp(health, 0.0f, 1.0f);
+
+        healthBar.transform.localScale = new Vector3(health, healthBar.transform.localScale.y, healthBar.transform.localScale.z);
+        healthBarWatch.transform.localScale = new Vector3(health, healthBarWatch.transform.localScale.y, healthBarWatch.transform.localScale.z);
     }
     /*
     private IEnumerator GameOver(float delay)
