@@ -10,17 +10,19 @@ public class Menu : MonoBehaviour {
     public GameObject controls;
     public GameObject title;
     public GameObject rules;
+
     public Animator simonXAnimator;
     public AnimationClip simonX;
-    public bool menuIsActive;
+    
     public AudioSource audioSource;
     public AudioClip button;
+
+    public bool menuIsActive;
 
     // Use this for initialization
     void Start () {
         menuIsActive = false;
-        StartCoroutine(SetMenuActive(7));   //(simonX.length));
-        //Controls.color = TextColor;
+        StartCoroutine(SetMenuActive(7));
     }
 	
 	// Update is called once per frame
@@ -30,6 +32,7 @@ public class Menu : MonoBehaviour {
             controls.SetActive(true);
             title.SetActive(false);
             rules.SetActive(false);
+
             audioSource.PlayOneShot(button);
         }
         else if (Input.GetButton("Jump") && menuIsActive)
@@ -37,16 +40,19 @@ public class Menu : MonoBehaviour {
             controls.SetActive(false);
             title.SetActive(false);
             rules.SetActive(true);
+
             audioSource.PlayOneShot(button);
         }
         else if (Input.GetButton("Fire2") && menuIsActive)
         {
-            Application.Quit();
             audioSource.PlayOneShot(button);
+
+            Application.Quit();           
         }
         else if (Input.GetButton("Fire1") && menuIsActive)
         {
-            SceneManager.LoadScene("SimonXTestbed");
+            SceneManager.LoadScene("Level1");
+
             audioSource.PlayOneShot(button);
         }
         else if (menuIsActive)

@@ -6,24 +6,31 @@ using UnityEngine.UI;
 
 public class Tower : MonoBehaviour {
 
-    public float health;
-    public float maxHealth;
     public GameObject healthBar;
     public GameObject healthBarWatch;
     public GameObject gameOver;
-    public bool gameOverActive;
-    public AudioSource audioSource;
-    public AudioClip explode;
     public GameObject explosion;
+    public GameObject levelComplete;
+
+    public AudioSource audioSource;
+
+    public AudioClip explode;
     public AudioClip damage;
     public AudioClip crumble;
-    MeshRenderer mesh;
-    float t;
 
     public Text timer;
     public Text timerWatch;
+
+    public MeshRenderer mesh;
+
+    public float health;
+    public float maxHealth;
+    public float t;
     public float startTime;
-    public GameObject levelComplete;
+
+    public bool gameOverActive;
+
+    List<object> listOfEnemies;
 
     // Use this for initialization
     void Start () {
@@ -35,15 +42,6 @@ public class Tower : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (health <= 0)
-        {
-            audioSource.PlayOneShot(explode);
-            audioSource.PlayOneShot(crumble);
-            //StartCoroutine(GameOver(5));
-            gameOver.SetActive(true);
-            Destroy(gameObject);
-        }
-
         t -= Time.deltaTime;
 
         string minutes = ((int)t / 60).ToString();
@@ -52,12 +50,26 @@ public class Tower : MonoBehaviour {
         timer.text = minutes + ":" + seconds;
         timerWatch.text = minutes + ":" + seconds;
 
+        if (health <= 0)
+        {
+            audioSource.PlayOneShot(explode);
+            audioSource.PlayOneShot(crumble);
+            gameOver.SetActive(true);
+            Destroy(gameObject);
+        }
+
         if (t <= 0)
         {
-            timer.text = "0:0";
-            timerWatch.text = "0.0";
+            timer.text = "0:00";
+            timerWatch.text = "0.00";
             levelComplete.SetActive(true);
             StartCoroutine(LoadNextLevel(3));
+
+            FlockerScript[] enemies = FindObjectsOfType<FlockerScript>();
+            foreach (FlockerScript enemy in enemies)
+            {
+                Destroy(enemy.gameObject);
+            }
         }
     }
     
@@ -71,6 +83,16 @@ public class Tower : MonoBehaviour {
             Debug.Log("hit");
             ChangeHealth(-0.1f);
         }
+
+        if(other.gameObject.tag == "Boss")
+        {
+            audioSource.PlayOneShot(damage, 1.5f);
+            audioSource.PlayOneShot(crumble, 1.5f);
+            Destroy(other.gameObject);
+            GetComponent<Animator>().SetTrigger("TookDamage");
+            Debug.Log("hit");
+            ChangeHealth(-0.3f);
+        }      
     }
 
     public void ChangeHealth(float amount)
@@ -80,16 +102,12 @@ public class Tower : MonoBehaviour {
 
         healthBar.transform.localScale = new Vector3(health, healthBar.transform.localScale.y, healthBar.transform.localScale.z);
         healthBarWatch.transform.localScale = new Vector3(health, healthBarWatch.transform.localScale.y, healthBarWatch.transform.localScale.z);
-    }
-    /*
-    private IEnumerator GameOver(float delay)
-    {
-        yield return new WaitForSeconds(delay);
 
-        Time.timeScale = 0;
-        gameOver.SetActive(true);
+        if(amount < 0)
+        {
+            gameObject.GetComponent<CamShake>().Shake(.1f, .1f);
+        }
     }
-    */
 
     private IEnumerator LoadNextLevel(float delay)
     {

@@ -6,24 +6,34 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
-    public Renderer playerRenderer;
-    public bool destroyAll;
-    public Vector3 originalScale;
+    public GameObject levelComplete;
     public GameObject tower;
     public GameObject shockwave;
-    public Text timer;
-    public Text timerWatch;
-    public float startTime;
+    public GameObject cam;
+
+    public Renderer playerRenderer;
+
     public Animator towerAnim;
+    public Animator playerAnim;
+
+    public AnimationClip growAnim;
+
     public AudioSource audioSource;
     public AudioClip destroy;
     public AudioClip heal;
     public AudioClip shock;
     public AudioClip grow;
     public AudioClip power;
-    public GameObject levelComplete;
-    public int kills;
+
+    public Text timer;
+    public Text timerWatch;
     public Text killsText;
+
+    public Vector3 originalScale;
+    public bool destroyAll;
+    public float startTime;
+    public int kills;
+
     //Color gameObject.GetComponent<Renderer>().material.color;
 
     // Use this for initialization
@@ -104,7 +114,8 @@ public class Player : MonoBehaviour {
         }
         else if (other.gameObject.tag == "SuperSize")
         {
-            transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            //transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            playerAnim.SetTrigger("Grow");
             StartCoroutine(SuperSizeLifespan(10));
             Destroy(other.gameObject);
             audioSource.PlayOneShot(grow, 1f);
@@ -119,6 +130,7 @@ public class Player : MonoBehaviour {
         else if (other.gameObject.tag == "Shockwave")
         {
             Destroy(other.gameObject);
+            cam.GetComponent<CamShake>().Shake(.3f, .2f);
             Instantiate(shockwave, transform.position, transform.rotation);
             audioSource.PlayOneShot(shock, 1f);
         }
@@ -132,6 +144,7 @@ public class Player : MonoBehaviour {
             {
                 other.gameObject.GetComponent<Boss>().ChangeHealth(-.35f);
                 audioSource.PlayOneShot(destroy, 0.7f);
+                cam.GetComponent<CamShake>().Shake(.1f, .2f);
                 Vector3 vectorToTarget = other.gameObject.transform.position - transform.position;
                 gameObject.GetComponent<Rigidbody>().AddForce(-vectorToTarget * 10, ForceMode.Impulse);
             }
@@ -149,7 +162,8 @@ public class Player : MonoBehaviour {
     private IEnumerator SuperSizeLifespan(float lifespan)
     {
         yield return new WaitForSeconds(lifespan);
-        transform.localScale = originalScale;
+        playerAnim.SetTrigger("Shrink");
+        //transform.localScale = originalScale;
     }
 
     private IEnumerator LoadNextLevel(float delay)
@@ -164,7 +178,13 @@ public class Player : MonoBehaviour {
     void DestroyEnemy(GameObject enemy)
     {
         Destroy(enemy);
+        //cam.GetComponent<CamShake>().Shake(.05f, .1f);
         audioSource.PlayOneShot(destroy, 0.7f);
         kills++;
+    }
+
+    public void Kills(int kill)
+    {
+        kills += kill;
     }
 }

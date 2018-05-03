@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Shockwave : MonoBehaviour {
 
-    //public AudioSource audioSource;
-
+    public GameObject particles;
     public GameObject player;
-
 	// Use this for initialization
 	void Start () {
         StartCoroutine(DestroyShockwave(.4f));
@@ -20,10 +18,11 @@ public class Shockwave : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "EnemyR" || other.gameObject.tag == "EnemyG" || other.gameObject.tag == "EnemyB" || other.gameObject.tag == "EnemyY")
+        if (other.gameObject.tag == "EnemyR" || other.gameObject.tag == "EnemyG" || other.gameObject.tag == "EnemyB" || other.gameObject.tag == "EnemyY" || other.gameObject.tag == "Boss")
         {
+            Instantiate(particles, other.gameObject.transform.position, other.gameObject.transform.rotation);
             Destroy(other.gameObject);
-            //player.GetComponent<Player>().kills ++;
+            player.GetComponent<Player>().Kills(1);
         }
     }
 

@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour {
 
-    public float health;
-    int id;
-    Color[] colors;
+    public GameObject healthBar;
+
+    public Renderer bossRenderer;
+
+    public Color[] colors;
     public Color enemyColor;
 
-	// Use this for initialization
-	void Start () {
+    public float health;
+    public int id;
+
+    // Use this for initialization
+    void Start () {
         health = 1f;
-        InvokeRepeating("ChangeColor", 1f, 4f);
+        //InvokeRepeating("ChangeColor", 0f, 8f);
         colors = new Color[4];
         colors[0] = Color.red;
         colors[1] = Color.green;
         colors[2] = Color.blue;
         colors[3] = Color.yellow;
+        bossRenderer = gameObject.GetComponent<Renderer>();
+        ChangeColor();
     }
 	
 	// Update is called once per frame
@@ -32,7 +39,7 @@ public class Boss : MonoBehaviour {
     void ChangeColor()
     {
         int id = Random.Range(0, 4);
-        gameObject.GetComponent<Renderer>().material.color = colors[id];
+        bossRenderer.material.color = colors[id];
         //gameObject.GetComponent<Renderer>().material.color = Color.blue;
     }
 
@@ -40,5 +47,9 @@ public class Boss : MonoBehaviour {
     {
         health += amount;
         health = Mathf.Clamp(health, 0.0f, 1.0f);
+
+        healthBar.transform.localScale = new Vector3(health, healthBar.transform.localScale.y, healthBar.transform.localScale.z);
+
+        ChangeColor();
     }
 }
