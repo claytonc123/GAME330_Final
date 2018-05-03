@@ -6,9 +6,11 @@ public class Shockwave : MonoBehaviour {
 
     public GameObject particles;
     public GameObject player;
+    public Player playerScript;
 	// Use this for initialization
 	void Start () {
         StartCoroutine(DestroyShockwave(.4f));
+        playerScript = player.GetComponent<Player>();
     }
 	
 	// Update is called once per frame
@@ -22,8 +24,8 @@ public class Shockwave : MonoBehaviour {
         {
             Instantiate(particles, other.gameObject.transform.position, other.gameObject.transform.rotation);
             Destroy(other.gameObject);
-            player.GetComponent<Player>().Kills(1);
         }
+        playerScript.Kills(1);
     }
 
     private IEnumerator DestroyShockwave(float time)

@@ -11,6 +11,7 @@ public class Tower : MonoBehaviour {
     public GameObject gameOver;
     public GameObject explosion;
     public GameObject levelComplete;
+    public GameObject particles;
 
     public AudioSource audioSource;
 
@@ -68,8 +69,11 @@ public class Tower : MonoBehaviour {
             FlockerScript[] enemies = FindObjectsOfType<FlockerScript>();
             foreach (FlockerScript enemy in enemies)
             {
+                Instantiate(particles, enemy.transform.position, enemy.transform.rotation);
                 Destroy(enemy.gameObject);
             }
+
+            Time.timeScale = .5f;
         }
     }
     
@@ -112,9 +116,16 @@ public class Tower : MonoBehaviour {
     private IEnumerator LoadNextLevel(float delay)
     {
         yield return new WaitForSeconds(delay);
-        int sceneNum = SceneManager.GetActiveScene().buildIndex;
-        sceneNum++;
-        SceneManager.LoadScene(sceneNum);
 
+        if (SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            int sceneNum = SceneManager.GetActiveScene().buildIndex;
+            sceneNum++;
+            SceneManager.LoadScene(sceneNum);
+        }
     }
 }

@@ -134,13 +134,13 @@ public class Player : MonoBehaviour {
             Instantiate(shockwave, transform.position, transform.rotation);
             audioSource.PlayOneShot(shock, 1f);
         }
-        else if (destroyAll && other.gameObject.tag != "ShockwavePickup")
+        else if (destroyAll && other.gameObject.tag != "ShockwavePickup" && other.gameObject.tag != "Boss")
         {
             DestroyEnemy(other.gameObject);
         }
         else if(other.gameObject.tag == "Boss")
         {
-            if (other.gameObject.GetComponent<Renderer>().material.color == gameObject.GetComponent<Renderer>().material.color)
+            if (other.gameObject.GetComponent<Renderer>().material.color == gameObject.GetComponent<Renderer>().material.color || destroyAll)
             {
                 other.gameObject.GetComponent<Boss>().ChangeHealth(-.35f);
                 audioSource.PlayOneShot(destroy, 0.7f);
@@ -180,7 +180,8 @@ public class Player : MonoBehaviour {
         Destroy(enemy);
         //cam.GetComponent<CamShake>().Shake(.05f, .1f);
         audioSource.PlayOneShot(destroy, 0.7f);
-        kills++;
+        //kills++;
+        Kills(1);
     }
 
     public void Kills(int kill)
